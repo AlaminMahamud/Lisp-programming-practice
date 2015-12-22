@@ -1,0 +1,13 @@
+(setq x 10)
+(setq y 10.5)
+(setq z 10.5e+4)
+(setq w 123.78)
+(setq s nil)
+(setq u 124/2)
+
+(print (type-of x))
+(print (type-of y))
+(print (type-of z))
+(print (type-of w))
+(print (type-of s))
+(print (type-of u))
