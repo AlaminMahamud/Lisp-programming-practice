@@ -1,0 +1,5 @@
+(write-line "Single Quoutes are used, so Expression evaluation is inhibited")
+(write '(* 2 3))
+(write-line " ")
+(write-line "Single Quotes are not used, so expression evaluation is not inhibited")
+(write (* 2 3))
