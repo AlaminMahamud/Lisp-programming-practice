@@ -1,0 +1,42 @@
+#+TITLE: THE Little Schemer - Daniel P Friedman
+* (Contents)
+* (Foreword)
+* (Preface)
+* ((1. Toys))
+#+BEGIN_SRC scheme
+  ((atom turkey) or)
+  (x y z)
+  ((x y) z)
+  (how are you doing so far)
+
+  (((how) are) ((you) (doing so)) far)
+
+  () ;; this is a list
+  () ;; no this is not an atom
+  (() () () ()); collections of s-expressions enclosed by parentheses.
+  (a b c) ;; car of this list is a
+  ((a b c) x y z) ;; car of this list is (a b c)
+  hotdog ;; it does not have any car. beacuase it is an atom
+  () ;; it does not have any car ;; because it is an empty list;
+
+  ;; what is the car of l where
+  ;; l is (((hotdogs)) (and) (pickle) relish)
+  ((hotdogs)) ;; read as : "The list of list of hotdogs." ((hotdogs)) is the first S-expression of l.
+
+  ;; what is the car of l where l is
+  ;; (((hotdogs)) (and) (pickle) relish)
+  ((hotdogs)) ;; because (car l) is another way to ask for "the car of the list l."
+
+  ;; What is (car (car l))
+  ;; where l is (((hotdogs)) (and) (pickle) relish)
+  (hotdogs)
+
+  ;; What is the cdr of l where l is (a b c)
+  (b c)
+
+  ;; what is the cdr of l ((a b c) x y z)
+  (x y z)
+
+  ;; what is the cdr of hamburger
+
+#+END_SRC
