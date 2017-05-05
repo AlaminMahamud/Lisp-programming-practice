@@ -38,5 +38,101 @@
   (x y z)
 
   ;; what is the cdr of hamburger
+  ;; NO answer
+
+  ;; What is the cons of the atom a and the list l where a is peanut and l is (butter and jelly)
+  (peanut butter and jelly)
+
+  ;; What is the cons of s and l where s is (banan and) and l is (peanut butter and jelly)
+
+  ((banana and) peanut butter and jelly) ;; because cons adds any S-expression to the front of a list.
+
+  (((help) this) is very ((hard) to learn))
+
+  ;; what does cons take as its arguments
+  ;; cons takes two arguments
+  ;; the first one is any S-expression
+  ;; the second one is any list.
+
+  ((a b (c)))
+  (a)
+
+  ;; What is (cons s (car l))
+  ;; where s is a
+  ;; and
+  ;; l is ((b) c d)
+
+  (a b)
+  (a c d)
+
+  ;; Is it true that the list l is the null list
+  ;; where l is ()
+
+  ;; Yes
+  ;; because it is the list composed of zero S-expressions.
+  ;; This questions can also be written:
+  (null? l)
+
+  ;; What is (null? (quote()))
+  ;; True
+  ;; because (quote()) is a notation for the null list.
+
+  ;; HOw many arguemnts does atom? take and what are they?
+  ;; It takes one argument.
+  ;; The argument can be any S-expression.
+
+  ;; Is (atom? (car l)) true or false
+  ;; true
+
+  ;; (eq? a1 a2)
+  ;; if a1 and a2 is equal or not.
+  ;; true
+
 
 #+END_SRC
+
+* ((2. Do it, Do it Again, and Again, and Again...)
+#+BEGIN_SRC scheme
+  ;; a lat is a list of atoms
+  ;; l is
+  ()
+  (lat? l)
+  ;; True
+  ;; because it does not contain a list.
+  (eq? (car l) (cdr l))
+
+  (define lat?
+    (lambda(l)
+      (cond
+       ((null? l) #t)
+       ((atom? (car l)) (lat? (cdr l)))
+       (else #f))))
+
+  ;;; (cond... ) asks questions.
+  ;;; (lambda ...) creates a function; and
+  ;;; (defin ...) gives it a name.
+
+  (defun lat?
+    (lambda()
+      (cond
+       ((null? l) #t)
+       ((atom? (car l)) (lat? (cdr l)))
+       (else #f))))
+
+  ;; Is (member? a lat) true or false
+  ;; where a is poached
+  ;; and
+  ;; lat is (fried eggs and scrambled eggs)
+  ;; False
+  ;; since a is not one of the atoms of the lat.
+  (define member?
+    (lambda(a lat)
+      (cond
+       ((null? lat) #f)
+       (else (or (eq? a (car lat)) (member? a cdr(lat)))))))
+
+
+
+#+END_SRC
+
+* ((3. Cons the Magnificent)) 
