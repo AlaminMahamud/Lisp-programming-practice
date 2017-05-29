@@ -1,0 +1,296 @@
+#+TITLE: tuhdo's guide on Emacs as a C/C++ Environment.
+* Emacs Mini Manual (Part 1) - The Basics
+** Before We Start
+** Why Emacs ?
+In Emacs, you can do manu things aside form editing. Emacs is a programming platform, not just another editor in the sense that people ting. For more details, read the Appendix.
+
+Take a [[[[http://www.gnu.org/software/emacs/tour/]]][tour]] from the official Emacs homepage.
+
+here is my personal tour, with 3rd party plugins added. Don't worry if your nEmacs does not look like the screenshots. You can have something like mine and even better, but for now you need to get a solid foundation. The screenshots are just for show. Even though, after going through this guide, you will be able to browse the Linux kernel source tree with ease.
++ Performance: Editina  39MB C source file with no problem. But well, it's not your favourite editor's fault if it crashes from editing such a large source file.
+#+CAPTION: This is the caption for performance.gif
+#+NAME: performance.gif
+[[./performance.gif]]
++ Programming
+  + Jump to any header file:
+  [[./jump_headers.gif
+]]  + Autocompletion: Pay attention to completion candidates when ~include <linux/printk.h>~ is present and when it's not.
+  [[./auto_complete.gif]]
+  + Showing funciton arguments.
+  [[./func_args.jpg]]
+  + Quickly comment multiple lines:
+  [[./comment.gif]]
+  + GDB:
+  [[./gdb-many-windows.gif]]
+  + Diff between current editing file and latest file revision:
+  [[./vc-diff.jpg]]
+  + Magit: From unstage -> stage -> commit -> push
+  [[./magit.gif]]
+  + Live Grep:
+  [[./live_grep.gif]]
+  + Quickly select any file in a directory under a version control System, for example from the Linux kernel. Note that in the demos you may see me type in the commands. You can think of it like the start menu in Windows, but those commands can actually be executed quickly with a shortcut.
+  [[./help-projectile-find-files-1.gif]]
+  + Quickly select any file/directory from a previous working session:
+  [[./helm-buffer-list.gif]]
+  + Emacs as a PDF Reader: I can search text in the PDF file with highlighting and a gable of contents side by side. All can be controlled with Keyboard.
+  [[./emacs-read-pdf.gif]]
+  Finally, [[http://jtnimoy.net/workviewer.php?q][Emacs is featured in TRON LEGACY]].
+** Why this guide ?
+Let's look at part of the Emacs manual:
+[[./emacs-manual-toc.gif]]
+"All about handling files" is inside the =Files= entry, which includes how to open files, save files, rever and auto-revert files, compare files..., many things from basic to advanced. If you are a beginner reading the Emacs manual, you have to actively search the manual to learn how to do the basic common tasks you know from other editors.
+
+It would take a long time before you can start using Emacs for basic opertaions (e.g. opening files) if you read the manual cover to cover. The "Fundamental Editing Commands" section is placed before the "Major Structures of Emacs" section that contains information on file handling. How can you learn the basic editing commands if you don't even know how to open a file? The problem with the manual is that it's not organized for a new Emacs user to progressively learn Emacs.
+
+I want to help you use Emacs efficiently in a relaticely short amount of time, probably around a week. That
+s why I wrote this guide especially for complete beginners. The Emacs manual is excellent, but it would be much easier with a solid ground understanding and after using Emacs for a while.
+
+This guide provides a good starting point for the official Emacs manual. The GNU Emacs toud would be a nice tutorial, only if it isn't made for demonstration.
+
+** A Bit of history
+Quote from the GNU Emacs homepage:
+
+#+BEGIN_QUOTE
+For those curious about Emacs history: Emacs was originally implemented in 1976 on the MIT AI Lab's Incompatible Timesharing System (ITS), as a collection of TECO macros. The name "Emacs" was originally chosen as an abbreviation of "Editor MACroS". This version of Emacs, GNU Emacs, was originally written in 1984. For more information, see the 1981 paper by Richard Stqallman, describing the design of the original Emacs and the lessons to be learned from it, and a transcript of his 2002 speech at the International LISP conference. My Lisp Experiences and the Development of GNU Emacs. Here is the cover of the original Emacs Manual for ITS; the cover of the original Emacs Manual for Twenex; and (the only cartoon RMS has ever drawn) the Self-Documenting Extensible Editor.
+#+END_QUOTE
+
+** "I don't want a complicated editor, I want something simple like Notepad"
+** Installation
+** TODO Swapping Control and Caps-Lock.
+** Concepts
+*** Command
+In Emacs, every user interaction is a function execution. You preses a key to insert a character, Emacs runs ~self-insert-command~. There are two types of functions in Emacs:
+
++ Normal Functions: These are like functions in other programming Languages, and are used for implementing features in Emacs. Users do not need to care about these functions, unless they want to implement something or modfiy an existing implementation.
++ Commands: Commands are like functions, but interactive. It meanse, commands are features provided to users and users directly use them.
+
+~execute-extended-command~ is bound to M-x.
+
+** Emacs Key notation
+#+CAPTION: This is the caption for my first table
+#+NAME: tab: basic-emacs-key-notation
+| Prefix | Meaning                                                                               |
+| ~C-~   | (press and hold) the Control key                                                      |
+| ~M-~   | the Meta key (the Alt key, on most keyboards)                                         |
+| ~S-~   | the Shift key (e.g. "S-TAB" means Shift Tab)                                          |
+| ~DEL~  | the Backspace key (not the Delete Key). Inside Emacs, DEL is written as ~<backspace>~ |
+| ~RET~  | the Return or Enter key                                                               |
+| ~SPC~  | the Space Bar key                                                                     |
+| ~ESC~  | the Escape Key                                                                        |
+| ~TAB~  | the TAB key                                                                           |
+
+** Emacs Keys are easy to remember
++ C-x
++ C-c
++ C-u
+** Ask for help - from Emacs
+*** Built-in help system
+*** Info
+*** Man
+** Point
+** Opening Files
+** Ido mode
+** Buffer
+** Major Mode
+** Minor Mode
+** Basic Buffer Management
+** Bookmark: save locations across Emacs sessions
+when you read books, you usually cannot read all at once and place a bookmark to go back to continue reading later. Emacs allows you to bookmark too.
+
+#+CAPTION: this is a table for all the shortcuts for Bookmarking on Emacs
+#+NAME: tab: basic-emacs-bookmarking-commands
+| Key       | Binding                                                                       |   |
+| ~C-x r m~ | Command: =bookmark-set=                                                       |   |
+|           | Set bookmark at point. After executing the command, a prompt asks for a name. |   |
+|           | Enter the name and RET.                                                       |   |
+| ~C-x r b~ | Command: =bookmar-jump=                                                       |   |
+|           | Jump to a saved bookmark, specified by user. TAB for getting bookmark list.   |   |
+| ~C-x r l~ | Command: =bookmark-bmenu-list=                                                |   |
+|           | Open the list of all bookmarks.                                               |   |
+
+Remember the key bindings are easy. You just need to remember that C-x r is the prefix for bookmark related commands. m stands for mark, meaning you mark something in some plaxce; b stands for bookmark, meaning you can switch to any bookmark quickly, similar to C-x b switches to buffers quickly. Finally, I means list for listing bookmarks, analogous to =ibuffer= for listing buffers. If you want to preserve the bookmarks across Emacs sessions, ~C-x r l~ to open the bookmark list and press s to save the list to file.
+
+If you understand how to manage buffers,s managing bookmarks is the same, with different but similar key bindings. Finally, you cannotonly bookmark buffers that are associated with files, you can bookmark non-file buffers too:
+
+1. Dired buffers
+2. Info buffers
+3. Man Pages
+
+A few useful key bindings when in =bookmark-bmenu-list=:
+
+** Basic Motion Commands
+** Useful Built-in key bindings for navigating pairs
+** Basic editing commands
+** Dynamic abbreviations
+** kill ring
+** Mark and region
+** Mark ring
+** Global Mark Ring
+** Undo/Redo
+** Search for Text
+*** Incremental Search
+*** Occur
+*** Query Replace
+*** Multi-occur
+*** Grep
+** Modeline
+
+=cs:ch-fr | buf | pos line | (major minor)=
+cs - describes the character set of the text in the buffer. do you see the character ~U~ in the picture? It means your text is represented UTF-8 coding system.
+
+#+BEGIN_QUOTE
+UTF-8 is a character encoding capable of encoding all possible characters, or code points, defined by Unicode and originally designed by Ken Thompson and Rob Pike.
+
+The encoding is variable-length and uses 8-bit code units. It was designed for backward compatibility, with ASCII and to avoid the complications of endianness and byte order marsk in the alternative UTF-15 and UTF-32 encodings. The name is derived form Unicode (or Universal Coded Character Set) Transformation Format - 8-bit.
+#+END_QUOTE
+
+If you type text in different human languages, and if the input method is on, to the left of the ~U~ appears the symbol of that language, i.e. \U, the backslash means Tex input method. 
+C-\ prompts 
+ch describes editing state of current buffer:
++ This shows two dashes ('-') if the buffer displayed in the window has the same contents as the corresponding file on the disk; i.e., if the buffer is "unmodified".
++ If the buffer is modified, it shows two stars('**'). For a read-only buffer, it shows '%' if the buffer is modified, and '%%' otherwise. You can see that in the picture, the buffer is modified. 
+
+~fr~ gives the selected frame name. A frame is a Emacs window in your OS. For example, these are two Emacs frames:
+
+** MiniBuffer
+~MiniBuffer~ is the small area at the bottom of your Emacs screen.
+The ~MiniBuffer~ is where Emacs commands read complicated arguments, such as file names, buffer names, Emacs command names, or Lisp expressions. When you execute =find-file=, it asks for your file from the =Mini-buffer=, which is one of =find-file= required argument. Remember I said earlier that in Emacs, everything is a function. =find-file= is a command 
+** Echo area
+   ~Mini Buffer~ can be used for output as well. The echo area is used for displaying messages made with the message primitive, anf for echoing keystrokes. Both ~Minibuffer~ and ~Echo area~, although server different purposes, share the same physical space. You should not be confused between the two.
+** Frames
+** Window
+** Prefix Arguments
+** Basic file management with Dired
+Emacs has a built-in one called Dired, short for (Dir)ectory (Ed)itor.
+This section is a shortend version of Dired in GNU Emacs Manual. After you read and practice these commands, read the Dired manaul if possible
+
+*** Enter Dired
+| Key     | Binding                                                           |
+| C-x d   | Select directory of your choice and start Dired in that Directory |
+| C-x 4 d | Select directory of your choice and start Dire in another Window  |
+| C-x C-f | Select a directory to enter dired                                 |
+
+*** Navigation
+| Key | Binding                                                       |
+| n   | Move to next entry below point.                               |
+| p   | Move to previous entry above point                            |
+| C-s | Find tet using Isearch; useful for searching entries in Dired |
+
+*** Create Files
+| Key     | Binding                                                |
+| +       | prompts for a directory name and create one after RET. |
+| C-x C-f | Create a new file. This is your regular find-file      |
+
+*** Visit Files
+| Key           | Binding                                                                   |
+| f or e or RET | Open current file at point                                                |
+| o             | Open file at point in another window                                      |
+| C-o           | Open file at point in another window, but do not select that window       |
+| v             | Open file for read only.                                                  |
+| ~^~           | Open parent directory and create another Dired buffer of parent directory |
+
+
+
+*** File Marking 
+You flag files  for deletion. You mark files for everything else (i.e. copy, move, link files...).
+There are many marking commands for specialized file types. Except for m, %m and %g, all marking commands have prefix &. I will list the most useful one; you can look up the other marking commands in Dired manual
+| Key | Binding                                                                                   |
+| m   | mark the entry at point. You can mark more than one, either                               |
+|     | downward or upward with prefix argument                                                   |
+| %m  | makr all files whose names match supplied regexp                                          |
+| %g  | match all files whocse contents match the supplied regexp. This is the same as using GREP |
+
+*** Operating On Files
+These commands use uppercase character. If you see an uppercase character for a command, It means ~S-<character>.~
+| Key | Binding                                                                                                                               |
+| C   | prompt for a location to copy the file at point (if no file is marked) ormarked files                                                 |
+| R   | Prompt for a location to rename or move file at point (if no fiels is makred) or marked files. Thisis the same as mv command in shell |
+| H   | Prompt for a location to create a hard link                                                                                           |
+| S   | Prompt for a location to create a symbolic link/                                                                                      |
+| M   | Change permissiong bits of ifle at point or marked files.                                                                             |
+
+*** Deleting Files
+| Key  | Binding                                                            |
+| d    | flag file for deletion                                             |
+| u    | remove flagged files.                                              |
+| #    | flag all auto-save files (files whose names start and end with '#' |
+| ~    | flag all backup files                                              |
+| % &* | flag for deletion all files that match dired-garbage-files-regexp  |
+| % d  | flag files which matches a regexp                                  |
+| x    | confirm and delete flagged files                                   |
+
+*** Execute shell commands in Dired
+Just like in shell, you can execute commands in the current directory in Dired too.
+| key | Binding                                                    |
+| ~!~ | execute a command on selected file or files.               |
+| ~&~ | execute a command on selected file or files asynchronusly. |
+
+*** Compare files
+| Key | Binding                                                                                             |
+| =   | Compares the file at point with another file supplied by user from a file prompt in the minibuffer. |
+
+*** Subdirectories
+This is an exciting feature of Dired. In other file explorers, you get a tree to browse you directory. If you have a deep directory structure, it will quickly become a nuisance.
+
+Dired allows user to insert the content of a directoyr just below the current directory. 
+You can search for file names with C-s easily in both directories. you can insert as many subdirectories as you want.
+Move point on a directory in Dired and press i. You will see another directory insert below:
+
+*** Registers
+When I first heard about register in Emacs, it scared me. I though "Wow, what is this "register" thing? Am I going to workd directly with CPU register?" As it turned out, despite the name "Register", it's not somethign that complicated to understand. Although, an Emacs register is similar to a CPU register in the sense that it allows quick access to temporal data.
+
+Each register has a name that consists of a single character, which we will denote by r; r can be a letter (such as 'a') or a number (such as '1'); case matters, so register 'a' is not same as register 'A'.
+
+In Emacs, register are for quick access to things. Things can be a position, a piece of text, a rectangle, a number, a file name, or a window configuration(yes, you can save how Emacs organizes its screen and restore it later!)
+
+Saving different types of objects has different key bindings, but to jump to a register, you use a single command C-x r j REG; REG is a register of your choice. 
+
+The prefix key for register commands is C-x r. If you forget the key bindings, C-x r C-h to get the list of key bindings.
+
+*** Save window configuration
+One of the best uses of registers. It simply saves your curret window configuration and restores the layout later.
+For example, you are viewing four source code buffers, but want to open two Dired buffers side by side for merging files, so you close two windows and switch the other two windows to Dired buffers. But this makes you lose the perfect layout you had, and later it would be tedious to restore the windows one by one to finally recreate the original layout you were working with. 
+Then, later, you have to do something else, you have to break your window configuration, you have to manually restore your window configuration again, and have to remember exactly which buffers you were working with.
+
+To free yourself from this burden, registers is the answer. you can save a window configuration with four windows displaying four buffers, and another one having two Dired buffers for your project. You can more easily switch between them.
+
+| Key         | Binding                                                                    |
+| C-x r w REG | Command: ~window-configuration-to-register~                                |
+|             | Save the window configuration of current frame into register REG           |
+| C-x r f REG | Command: ~frame-configuration-to-register~                                 |
+|             | Save the state of all frames, including all their windows, in register REG |
+| C-x r j REG | Command: ~jump-to-register~                                                |
+|             | Jump to a register REG.                                                    |
+
+REG can be a letter (such as 'a') or a number (such as '1'); case matters, so register 'a' is not the same as register 
+'A'
+
+*** Save frame configuration
+| Key         | Binding                                            |
+| C-x r f REG | Save current frame configuration into register REG |
+
+If you create multiple frames with frame commands (prefix C-x 5), then you may want to save your frames with different window configurations in it, for later use. For example, I can have a frame for reading documents and my main frame for writing and browsing code, When I finish working, I close the extra frame, leaving my main frame active. But later, when I finish working, I close the extra frame, leaving my main frame active. But later, when I need to have that exact frame setup, I can always restore with saved frameset in a register.
+
+*** Save Text
+#+BEGIN_SRC c++
+  auto it = find_if(vertices.begin(), vertices.end(), [&v_idx] (const Vertex& o) -> bool {
+      return o.id == v_idx;
+    });
+#+END_SRC
+
+*** Save rectangles
+*** Save Positions
+*** Save numbers 
+
+** Macro
+*** Keyboard Macro Ring
+| Key         | Binding                                              |
+| C-x C-k C-k | Command: kmacro-end-or-call-macro-repeat             |
+|             | Execute the keyboard macro at the head of the ring   |
+| C-x C-k C-n | Command: ~kmacro-cycle-ring-next~                    |
+|             | Rotate the keyboard macro ring to the next macro     |
+|             | (defined earlier).                                   |
+| C-x C-k C-p | Command: ~kmacro-cycle-ring-previous~                |
+|             | Rotate the keyboard macro ring to the previous macro |
+|             | (defined later)                                      | 
+
