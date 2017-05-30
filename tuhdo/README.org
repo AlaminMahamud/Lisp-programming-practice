@@ -286,11 +286,77 @@ If you create multiple frames with frame commands (prefix C-x 5), then you may w
 *** Keyboard Macro Ring
 | Key         | Binding                                              |
 | C-x C-k C-k | Command: kmacro-end-or-call-macro-repeat             |
-|             | Execute the keyboard macro at the head of the ring   |
+|             |                                                      |
 | C-x C-k C-n | Command: ~kmacro-cycle-ring-next~                    |
 |             | Rotate the keyboard macro ring to the next macro     |
 |             | (defined earlier).                                   |
 | C-x C-k C-p | Command: ~kmacro-cycle-ring-previous~                |
 |             | Rotate the keyboard macro ring to the previous macro |
-|             | (defined later)                                      | 
+|             | (defined later)                                      |
 
+*** Macros with variations
+Macro is excellent for reptitive editing tasks. However, sometimes you have a repetitive task that can make use of macro, but not always repetitive: a part of the task varies every time you repeat it. For example, you have a text template, with some blank fields for fitting in appropriate information. Keyboard macro supports this use case.
+
+When in the process of defining a keyboard macro, C-x q marks the current point in the process, and when the keyboard macro is executed and reaches this point, it will ask to confirm:
+
+| Response | Action                                                       |
+| Y        | Finish this iteration normally and continue with the next.   |
+| N:       | Skip the rest of this iteration, and start the next.         |
+| RET      | Stop the macro entirely right now.                           |
+| C-l      | Redisplay the screen, then ask again.                        |
+| C-r      | Start editing at point. C-M-c to go back to macro execution. |
+
+*** Naming and Saving Macro
+#+BEGIN_SRC emacs-lisp
+(load-file "~/.emacs.d/macros")
+#+END_SRC
+
+*** Edit Keyboard Macro
+*** Interactive Keyboard Macro Editing:
+*** Tips for using macro effectively
+
+** Version Control
+Emacs helps you manipulate and edit files in version control. Emacs supports CVS, Subversion, bzr, git, hg, and other systems,
+but it offers a uniform interface, called VC, regardless of the version control system you are using.
+The benefit of a unified interface is that even if you aren't familiar with some version control system(VCS), you can still work with that
+VCS quickly, without the burden of learning all the little details of a particular VCS.
+
+Emacs automatically detects when a file you're editing is under version control, and displays something like this in the mode line: CVS-1.14 to indicate the version control system in use, and the current version.
+
+~M-x vc-next-action~ or C-x v v commits the current file (prompting you for a log message)
+if you've modified it. (Under version control systems that require lokcing, this command also acquires a lock for you.)
+
+VC provides other commadns for version control-related tasks:
+
+| Key     | Binding                                                                                                                                |
+| C-x v = | Command: vc-diff                                                                                                                       |
+|         | Displays a diff showing the changes you've made to the current files.                                                                  |
+| C-x v ~ | Command: vc-revision-other-window                                                                                                      |
+|         | Prompts you for a version number and shows you that version of the current file in another window                                      |
+| C-x v g | Command: vc-annotate                                                                                                                   |
+|         | Displays an annotated version of the file showing, for each line, the commit where that line was last changed and by whom. On any line |
+|         | you can press l to view te log message for that commit or d to view the associated diff.                                               |
+| C-x v l | Command: vc-print-log                                                                                                                  |
+|         | Displays a log of previous changes to the file. When point is on a                                                                     |
+|         | particular log entry, you can press d to view the diff associated with that change or f to view that version of the file.              |
+| C-x v u | Command: vc-revert                                                                                                                     |
+|         |                                                                                                                                        |
+
+
+** Shell
+In Emacs, you have three types of shell commands: ~shell~, ~term~ and ~eshell~.
+I will just quote a very good answer on Stack Exchange:
+#+BEGIN_QUOTE
+shell is the oldest of these 3 choices. It uses Emacs's comint-mode to run a subshel (e.g. bash). In this mode, you're using Emacs to edit a command line.
+The subprocess doesn't see any input until you press Enter. Emacs is acting like a dumb terminal. It does support color codes, but not things like moving the cursor around, so you can't run curses-based applications.
+
+term is a terminal emulator written in Emacs Lisp. in this mode, the keys you press are sent directly to the subprocess; you're using whatever line editing capabilities the shell presents, not Emacs's. It also allows you to run
+programs that use advanced terminal capabilities like cursor movement (e.g. you could run nano or less inside emacs).
+
+eshell is a shell implemented directly in Emacs Lisp. You're not running bash or any other shell as a subprocess.
+As a result, the syntax is not quite the same as bash or sh. It allows things like redirecting the output of a process directly to an Emacs buffer.
+#+END_QUOTE
+
+I suggest you to use eshell, since you can use any Emacs commands withing Eshell as well. However, in Eshell, to send an interrupt signal, instead of Ctrl+C, you need to press twice: ~Ctrl+C Ctrl+
+* Emacs Mini Manual (Part 2) - LISP Primer Why Parenthesis Matter?
+** Introduction - and why you should learn Lisp
