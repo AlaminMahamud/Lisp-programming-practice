@@ -360,3 +360,188 @@ As a result, the syntax is not quite the same as bash or sh. It allows things li
 I suggest you to use eshell, since you can use any Emacs commands withing Eshell as well. However, in Eshell, to send an interrupt signal, instead of Ctrl+C, you need to press twice: ~Ctrl+C Ctrl+
 * Emacs Mini Manual (Part 2) - LISP Primer Why Parenthesis Matter?
 ** Introduction - and why you should learn Lisp
+*** Before We start
+*** A bit of history
+*** Basic syntax and semantic
+Lisp syntax is inherently simple. At its core, this is all that required to understand any Lisp:
++ Anything isn't a list it's an atom. Atoms are the same as primitives in other languages: components that cannot be broken down further into smaller pieces. This is data.
++ Anything is not an atom, it's a list that contains atoms. List can be used either as code for processing something or as data to be processed.
++ Data:
+  + Atomic-data, or Atom: It is the same as primitivees in other languages, meaning the most basic construct and indivisible. 
+    + Numbers
+    + String
+    + NIL
+    + Symbol : A Symbol is an object with a name. You can thing of symbol as pointer or reference in other language. Each symbol has 4 components:
+      + Print name: symbol's name as string
+      + Value: value of symbol as variable
+      + Function: symbol's function definition. A symbol can be both a variable and a function.
+      + Property-list: list of key-value pairs. You don't need to care much at this stage.
+
+    Example: the varibale ~buffer-file-name~ is both a variable and  a function. You can check by using ~symbol-value~ and ~symbol-function~ functions:
+   + Non-atomic: 
+
+   + Code
+     What's the difference between code and dat? That's right, a single quote '. Without the quote ', we are creating a list that holds code for computer to
+     execute. With the quote ', we are creating a list that holds data, similar to List data structure in Java or C++ to hold data.
+
+* Emacs Mini Manual (Part 3) - Customizing and extending Emacs
+** Why customize and extend Emacs?
+** Just enough Emacs Lisp
+*** Function: (setq [SYM VAL]..)
+#+BEGIN_SRC emacs-lisp
+(setq global-mark-ring-max 50000)
+#+END_SRC
+
+*** Function: (load FILE &optional NOERROR NOMESSAGE NOSUFFIX MUST-SUFFIX)
+#+BEGIN_SRC emacs-lisp
+(load (substitute-in-file-name "$HOME/.emacs.d/module")) ;; first try to load module.elc 
+;; if not found then load module.el
+(load (substitute-in-file-name "$HOME/.emacs.d/module.el")) ;; only load module.el
+(load (substitute-in-file-name "$HOME/.emacs.d/module.elc")) ;; only load module.elc
+(load "module") ; search for the file module.el or module.elc in variable load-path
+#+END_SRC
+
+*** Function: (require FEATURE &optional FILENAME NOERROR)
+_Comment:_ If you install a package from ~M-x list-packages~, to load package, use 
+~(require 'installed-package)~.
+_Example:_ For example, you installed package ~volatile-highlights~, to load it:
+~(require 'volatile-highlights)~
+Later in the guide, you will create your own custom modules that uses ~provide~ function to provide new feature to Emacs. TO use a feature, the module must be activated with ~require~.
+
+*** Function: (provide FEATURE &optional SUBFEATURES)
+_Comment:_ You can use this function at the end of a file to turn the file into a loadable module that is only laoded when called with ~require~.
+
+_Example:_ 
+Suppose that in a file ~setup-editing.el~, you put this line at the bottom:
+#+BEGIN_SRC emacs-lisp
+(provide 'setup-editing)
+#+END_SRC
+
+Then, even if you load it with ~load~ function, it won't be activated. TO activate, you have to execute
+#+BEGIN_SRC emacs-lisp
+(require 'setup-editing)
+#+END_SRC
+
+_Built-in Documentation:_
+Announce that FEATURE is a feature of the curret Emacs. The optional argument SUBFEATURES should be a list of symbols listing particular subfeatures in this version of FEATURE.
+
+*** Function: (add-to-list LIST-VAR ELEMENT &optional APPEND COMPARE-FN)
+_Comment_: Add an element ~ELEMENT~ to a list named ~LIST-VAR~ 
+_EXAMPLE_: 
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/personal") ;; add personal to load-path
+#+END_SRC
+
+*** FUNCTION: (add-hook HOOK FUNCTION &optional APPEND LOCAL)
+_Comment_: A hook is a LISP variable which holds a list of function, to be called on some well-defined 
+occasion. (This is called running the hook. You can search for hook using C-h v and enter -hook suffix then TAB.
+Or you can find hooks in Customization Groups.
+
+_Example_:
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'linum-mode)
+#+END_SRC
+
+After you add the function ~linum-mode~ - which activates line number on the left margin of your Emacs - then every tine you enter a prog-mode, which is the root all programming major modes derive from.
+A programming mode can be ~c-mode~, ~asm-mode~, ~emacs-lisp-mode~, ~java-mode~.
+
+_Built-in Documentation_:
+#+BEGIN_QUOTE
+Add to the value of HOOK the function FUNCTION. FUNCTION is not added if already present.
+FUNCTION is added (if necessary) at the beginning og the Hook list unless the optional argument APPEND is non-nil, in which cae FUNCTION is added at the end.
+
+The optional fourth argument, LOCAL, if non-nil, says to modify the hook's buffer-local value rather than its global value. 
+This makes the hook buffer-local, and it makes t a member of the buffer-local value.
+#+END_QUOTE
+
+*** Function: (global-set-key KEY COMMAND)
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x C-b") 'ibuffer) ;; bind "C-x C-b" to ibuffer command.
+(global-set-key "\C-x\C-b" 'ibuffer) ;; bind "C-x C-b" to ibuffer command, but modifier keys
+;; must be escaped with the backslash.
+(global-set-key [?\C-x?\C-b] 'ibuffer) ;; use vector instead of a string.
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<f3>") 'kmacro-start-macro-or-insert-counter)
+#+END_SRC
+
+Here are common function keys (remember to wrap them in a pair of angle bracket): 
+| Key                                  | Binding                                        |
+| ~left, up, down, right~              | Cursor arrow keys                              |
+| ~begin, end, home, next, prior~      | other cursor re-positioning keys               |
+|                                      | ~prior~ means ~PageUp~                         |
+|                                      | ~next~ means ~PageDown~                        |
+| ~select, print, execute, backtab~    | Miscellaneous keys                             |
+| ~insert, undo, redo, clearline~      | ~backtab~ means ~S-TAB~ or ~C-iso-tab~         |
+| ~insertline, deleteline, insertchar~ |                                                |
+| ~deletechar~                         |                                                |
+| ~f1, f2, ..F35~                      | Numbered function keys on top of your keyboard |
+
+*** Function: (define-key KEYMAP KEY DEF)
+_Comment_: 
+This function binds a definition ~DEF~, usually a command, to a key sequence ~KEY~. A definition
+can be other things that you can find in the built-in documentation.
+
+
+_Example_:
+#+BEGIN_SRC emacs-lisp
+;; Dired uses "e", "f" or RET to open a file
+;; you can reuse one of these keys for different purpose
+;; for example, you can bind it wdired-change-to-wdired-mode
+;; wdired-change-to-wdired-mode allows you to edit your Dired buffer
+;; like a normal text buffer, such as edit file/directory names,
+;; permission bits.. and then commit the changes to dis.
+;; 
+;; "e" is short for "edit"
+;; After finish your editing, "C-c C-c" to commit, "C-c C-k" to abort
+(define-key dired-mode-map (kbd "e") 'wdired-change-to-wdired-mode)
+#+END_SRC
+
+*** Function (defalias SYMBOL DEFINITION &optional DOCSTRING)
+
+#+BEGIN_SRC emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p) ; y or n is enough
+(defalias 'list-buffers 'ibuffer) ; always use ibuffer
+; elisp
+(defalias 'eb 'eval-buffer)
+(defalias 'er 'eval-region)
+(defalias 'wsm 'whitespace-mode)
+#+END_SRC
+
+
+*** Function: (mapc FUNCTION SEQUENCE)
+#+BEGIN_SRC emacs-lisp
+;; load every .el file inside ~/.emacs.d/custom
+(mapc 'load (directory-files "~/.emacs.d/custom" t ".*\.el"))
+#+END_SRC
+
+*** Function: (defun NAME ARGLIST &optional DOCSTRING DECL &rest BODY)
+
+#+BEGIN_SRC emacs-lisp
+(defun demo()
+(message "Hello World" number string))
+
+;; create a command (avaialable in M-x):
+(defun demo ()
+(interactive)
+(message "Hello World"))
+#+END_SRC
+
+** Let's supercharge Emacs
+
+Throughout this section I will help you to extend Emacs with packages that improves
+general Emacs features, such as Info, Dired, buffer management... I will introduce 
+you popular packages out there, but I cannot present you all.
+
+*** How to use Emacs package Manager
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+(add-to-list 'package-archives
+'("melpa" . "http://melpa.milkbox.net/packages/") t)
+#+END_SRC
+
++ setup-editing.el => ~Editing~
+*** Customize built-in functions
