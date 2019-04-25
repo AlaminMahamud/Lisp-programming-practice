@@ -1,8 +1,7 @@
 #+TITLE: THE Little Schemer - Daniel P Friedman
-* (Contents)
-* (Foreword)
-* (Preface)
-* ((1. Toys))
+
+*** ((1. Toys))
+
 #+BEGIN_SRC scheme
   ((atom turkey) or)
   (x y z)
@@ -91,7 +90,8 @@
 
 #+END_SRC
 
-* ((2. Do it, Do it Again, and Again, and Again...)
+*** ((2. Do it, Do it Again, and Again, and Again...)
+
 #+BEGIN_SRC scheme
   ;; a lat is a list of atoms
   ;; l is
@@ -135,7 +135,7 @@
 
 #+END_SRC
 
-* ((3. Cons the Magnificent)) 
+*** ((3. Cons the Magnificent)) 
 
 #+BEGIN_SRC scheme
   ;; rember means remove a member atom

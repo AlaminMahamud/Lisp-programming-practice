@@ -1,5 +1,0 @@
-#+TITLE: Sacha_Chua Configuration
-* Configuration
-** About This file
-This is my personal config. It's really long, but that's partly because I sometimes leave blog posts in it as commentary. (And also because I've got a lot of little customizations that I might not even remember. =)). If you want to see a table of contents and other useful niceties, go to http://sachachua.com/dotemacs. Othe links for this page: Org Mode version, Github repository
-If you're new to Emacs Lisp, you probably don't want to copy and paste large chunks of this code. Instead, copy small parts of it (always making sure to copy a complete set of parentheses) into your *scracth* buffer or some other buffer in emacs-lisp-mode. Use M-x eval-buffer to evaluate the code and see if you like the way that Emacs behaves. See An Introduction to Programming in Emacs Lisp.
