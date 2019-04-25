@@ -1,1 +1,0 @@
-# Lisp-programming-practice
